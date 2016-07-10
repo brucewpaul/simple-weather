@@ -31,49 +31,57 @@ function setSizes() {
 	svgHeight = svgWidth * 5/8;
 }
 
+window.onresize = function(event) {
+    setSizes();
+    var svgSelection = d3.select('svg')
+	.attr('height', svgHeight)
+	.attr('width', svgWidth)
+};
+
 function degToCompass(num) {
 	val = Math.round((num/22.5)+.5);
 	deg=["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
 	return deg[val];
 }
 
-$("#nav-search").submit(function(e) {
+function loading() {	
+	$(".weather-template").addClass('hidden');
+	$(".location-search").addClass('hidden');
+	$('.loading').removeClass('hidden');
+}
+
+$(".find-me").click(function(e) {
 
 	e.preventDefault();
-	
-	var city = $(this).find('input').val();
-	
-	$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="+encodeURIComponent(city), function(val) {
-		if(val.results.length) {
-			// console.log(val.results);
-			var location = val.results[0].geometry.location;
-			getWeatherData(location.lat,location.lng, val.results[0].formatted_address);
-		}
-	});
 
-	$(".weather-template").removeClass('hidden');
+	loading();
 	
-	$(".location-search").addClass('hidden');
+	var wpid = navigator.geolocation.getCurrentPosition(function(position) {
+	  console.log(position);
+	  $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="+position.coords.latitude+","+position.coords.longitude, function(val) {
+			if(val.results.length) {
+				var location = val.results[0].geometry.location;
+				getWeatherData(location.lat,location.lng, val.results[2].formatted_address);
+			}
+		});
+	});
 
 });
 
-$("#initial-search").submit(function(e) {
-
-	e.preventDefault();
+$("#nav-search,#initial-search").submit(function(e) {
 	
-	var city = $(this).find('input').val();
+	e.preventDefault();
 
+	loading();
+	
+	var city = $(e.target).find('input').val();
+	
 	$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address="+encodeURIComponent(city), function(val) {
 		if(val.results.length) {
-			// console.log(val.results);
 			var location = val.results[0].geometry.location;
 			getWeatherData(location.lat,location.lng, val.results[0].formatted_address);
 		}
 	});
-
-	$(".weather-template").removeClass('hidden');
-
-	$(".location-search").addClass('hidden');
 
 });
 
@@ -88,6 +96,12 @@ function getWeatherData(lat, long, location) {
 
 
 function parseData(response,location){
+
+	$('.loading').addClass('hidden');
+
+	$(".weather-template").removeClass('hidden');
+	
+	$(".location-search").addClass('hidden');
 
 	var todayWeather = response.daily.data.shift();
 
@@ -136,7 +150,7 @@ function renderDaily(data) {
 	
 	dailyWeather.innerHTML = '<h1 class="text-uppercase">This Week</h1>';
 
-	for(var i=0;i<data.length;i++){
+	for(var i=0;i<data.length-2;i++){
 
 		var div = document.createElement("div");
 
