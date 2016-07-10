@@ -1,0 +1,106 @@
+
+/*
+General Styles
+grey - 2C3E50
+red - E74C3C
+white - ECF0F1
+light blue - 3498DB
+blue - 2980B9
+*/
+
+body {
+    font-size:18px;
+    color: #2C3E50;
+    background: #ECF0F1;
+}
+
+.low {
+	color: #2C3E50;
+}
+
+.weather-template, .location-search {
+	margin-top: 100px;
+}
+
+.day-icon, #weatherIcon {
+	color: #2C3E50;
+}
+
+/*
+Navbar
+*/
+.navbar-inverse {
+	background-color: #2C3E50;
+	border-color: #2C3E50;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #ECF0F1;
+}
+	.navbar-inverse .navbar-brand:hover {
+		color: #ECF0F1;
+	}
+
+/*
+Current Weather
+*/
+
+.current-weather {
+
+}
+
+/*
+Upcoming Weather
+*/
+
+.daily-weather {
+
+}
+	.upcomingDay {
+		margin-bottom: 20px;
+		border-radius: 4px;
+		font-size:18px;
+		background: #3498DB;
+		border-color: #2980B9;
+		color: #ECF0F1;
+		padding: 0 15px 15px;
+	}
+
+	.upcomingDay:hover {
+		cursor: pointer;
+		background-color: #2980B9;
+	}
+
+	.day-icon {
+		margin-right: 15px;
+	}
+
+/*
+D3 element
+*/
+
+#hourlyTemp {
+	background-color: #fff;
+}
+
+.line {
+	fill: none;
+	stroke: #2C3E50;
+	stroke-width: 2px;
+}
+
+.grid {
+	fill: none;
+	stroke: #eee;
+	stroke-width: 1px;
+}
+
+.axis {
+	font-size: 12px;
+	fill: #2C3E50;
+}
+
+svg .label, svg .title {
+	fill: #2C3E50;
+	font-weight: 400;
+}
